@@ -1,21 +1,32 @@
 In this task you will initialise the class and script that you will use to extract the data from the cloud. The definition of the classes and methods are meant as guidance. If you would like to follow a difference project/class structure feel free to do so. The class methods won't be defined in this step, they will be defined once required in subsequent tasks.
 
 
-Step 1: Create a new Python script db_utils.py which will contain your code to extract the data from the database.
+Step 1: Create a new Python script db_utils.py 
+which will contain your code to extract the data from the database.
 
 
-Step 2: Within the script create a new class called RDSDatabaseConnector. This class will contain the methods which you will use to extract data from the RDS database.
+Step 2: Within the script create a new class called
+ RDSDatabaseConnector. This class will contain the methods 
+ which you will use to extract data from the RDS database.
 
-The loan payments data is stored in an AWS RDS database. You will need to create the methods which will enable you to extract the data from this database.
-
-
-Step 1: Create a credentials.yaml file to store the database credentials.
-
-
-Remember to add this file to your .gitignore file in your repository, as you don't want your credentials being pushed to GitHub for security reasons.
+The loan payments data is stored in an AWS RDS database. 
+You will need to create the methods which will enable you 
+to extract the data from this database.
 
 
-Add the following credentials to your credentials.yaml file which will allow you to connect to the remote database:
+Step 1: Create a credentials.yaml file 
+to store the database credentials.
+
+
+Remember to add this file to your 
+
+.gitignore file in your repository, as 
+you don't want your credentials being pushed 
+to GitHub for security reasons.
+
+
+Add the following credentials to your credentials.yaml 
+file which will allow you to connect to the remote database:
 
 
 RDS_HOST: eda-projects.cq2e8zno855e.eu-west-1.rds.amazonaws.com
@@ -25,27 +36,59 @@ RDS_DATABASE: payments
 RDS_PORT: 5432
 
 
-Step 2: If you haven't already installed Python PyYAML package you should do so before the next step. This can be installed by running pip install PyYAML in the terminal and imported using import yaml. This will allow you to load your credentials.yaml file as a dictionary.
+Step 2: If you haven't already installed 
+Python PyYAML package you should do so
+ before the next step. This can be installed 
+ by running pip install PyYAML in the terminal 
+ and imported using import yaml. This will 
+ allow you to load your credentials.yaml file as a dictionary.
 
 
-Step 3: After installing the package create a function which loads the credentials.yaml file and returns the data dictionary contained within. This will be be passed to your RDSDatabaseConnector as an argument which the class will use to connect to the remote database.
+Step 3: After installing the package
+ create a function which loads the 
+ credentials.yaml file and returns 
+ the data dictionary contained within.
+This will be be passed to your RDSDatabaseConnector 
+as an argument which the class will use to connect 
+to the remote database.
 
 
-Step 4: Write the __init__ method of your RDSDatabaseConnector class. It should take in as a parameter a dictionary of credentials which your function from the previous step will extract.
+Step 4: Write the __init__ method of your RDSDatabaseConnector class.
+ It should take in as a parameter a dictionary of credentials 
+ which your function from the previous step will extract.
 
 
-Step 5: Define a method in your RDSDatabaseConnector class which initialises a SQLAlchemy engine from the credentials provided to your class. This engine object together with the Pandas library will allow you to extract data from the database.
+Step 5: Define a method in your RDSDatabaseConnector class 
+which initialises a SQLAlchemy engine from the credentials
+ provided to your class. This engine object together with 
+ the Pandas library will allow you to extract data from the database.
 
 
-Step 6: Develop a method which extracts data from the RDS database and returns it as a Pandas DataFrame. The data is stored in a table called loan_payments.
+Step 6: Develop a method which extracts 
+data from the RDS database and returns 
+it as a Pandas DataFrame. The data is 
+stored in a table called loan_payments.
 
 
-Step 7: Now create another function which saves the data to an appropriate file format to your local machine. This should speed up loading up the data when you're performing your EDA/analysis tasks. The function should save the data in .csv format, since we're dealing with tabular data.
+Step 7: Now create another function which
+ saves the data to an appropriate file format to your local machine. 
+ This should speed up loading up the data when you're performing 
+ your EDA/analysis tasks. The function should save the data in .csv 
+ format, since we're dealing with tabular data.
 
 
-With the data being stored locally, create a function which will load the data from your local machine into a Pandas DataFrame.
+With the data being stored locally, create a function 
+which will load the data from your local machine into a 
+Pandas DataFrame.
 
-In this step you might want to print the shape of the data to understand the size of the data you're working with. Printing out a sample of the data can help give a quick overview of its columns and values. The columns names might be quite alien to you if you've never used data from the financial domain before. Below is a data dictionary which describes all columns of the database to help you understand their meaning:
+In this step you might want to print the shape 
+of the data to understand the size of the data you're 
+working with. Printing out a sample of the data can 
+help give a quick overview of its columns and values. 
+The columns names might be quite alien to you if you've 
+never used data from the financial domain before. Below 
+is a data dictionary which describes all columns of the 
+database to help you understand their meaning:
 
 id: Unique id of the loan
 member_id: Id of the member to took out the loan
@@ -90,7 +133,8 @@ application_type: Indicates whether the loan is an individual application or a j
 A markdown copy of the data dictionary can be found at the following link .
 https://aicore-eda-project.s3.eu-west-1.amazonaws.com/loan_data_dict.md
 
-Update your GitHub repository with the latest code changes from your local project. Start by staging your modifications and creating a commit. Then, push the changes to your GitHub repository.
+Update your GitHub repository with the latest code changes from your local project. Start by staging your 
+modifications and creating a commit. Then, push the changes to your GitHub repository.
 
 Additionally, document your progress by adding to your GitHub README file. You can refer to the relevant lesson in the prerequisites for this task for more information.
 
