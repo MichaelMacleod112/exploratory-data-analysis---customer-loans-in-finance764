@@ -71,6 +71,7 @@ class DataTransform():
         
         self.data[self.obj_to_bool_cols] = self.data[self.obj_to_bool_cols].astype(bool)
         
+        # self.data[self.obj_to_datetime_cols] = self.data[self.obj_to_datetime_cols].apply(lambda col: pd.to_datetime(col, format='%Y-%m-%d', errors='coerce'))
         self.data[self.obj_to_datetime_cols] = self.data[self.obj_to_datetime_cols].apply(lambda col: pd.to_datetime(col, format='%b-%Y', errors='coerce'))
         
         # special case for employment length
@@ -125,7 +126,7 @@ class DataPreprocessor(DataTransform):
         
         self.__handle_nulls()
         
-        self.__transform_skewed_cols()
+        # self.__transform_skewed_cols()
         
         self.__drop_outliers()
         
@@ -139,8 +140,8 @@ class DataPreprocessor(DataTransform):
         """Function to drop columns, rows, or impute based on nulls
         """
         # Handle columns with very large number of nulls
-        self.__set_cols_to_drop()
-        self.data = self.data.drop(columns=self.cols_to_drop)
+        self.set_cols_to_drop()
+        # self.data = self.data.drop(columns=self.cols_to_drop)
         
         # Handle columns with low number of nulls
         self.__set_rows_to_drop()
@@ -157,8 +158,9 @@ class DataPreprocessor(DataTransform):
         # idea taken from a kaggle challenge from a few months ago
         set_classifier_flag = 0
         # split data into train/test and null sets - based on target column containing null values
-        null_data = self.data[self.data[column_name].isnull()]
-        non_null_data = self.data.dropna(subset=[column_name])
+        null_data = self.data[self.data[column_name].isnull()].copy()
+        # null_data = self.data.loc[self.data[column_name].isnull()]
+        non_null_data = self.data.dropna(subset=[column_name]).copy()
 
         # Feature columns - just numerics works fine for now
         # feature_cols = [col for col in self.data.columns if col != column_name]
@@ -177,6 +179,8 @@ class DataPreprocessor(DataTransform):
             model = RandomForestClassifier()
             print(f"Using classifier to impute for column: {column_name}")
             y_target = pd.get_dummies(y_target)
+            
+            
             new_columns = y_target.columns.tolist()
             set_classifier_flag = 1
         elif y_target.dtype == int or y_target.dtype == float:
@@ -197,6 +201,8 @@ class DataPreprocessor(DataTransform):
         # Replace missing values with imputed values in the original dataset
         if set_classifier_flag:
             self.data = pd.get_dummies(self.data, columns=[column_name])
+            # dummy_columns = pd.get_dummies(self.data[column_name])
+            # self.data[dummy_columns.columns] = dummy_columns
             self.data.loc[self.data.index.isin(null_data.index), new_columns] = imputed_values
         else:
             self.data.loc[self.data.index.isin(null_data.index), column_name] = imputed_values
@@ -232,7 +238,8 @@ class DataPreprocessor(DataTransform):
         print("Dropping overly correlated columns")
         self.__set_correlated_cols()
         self.data = self.data.drop(self.correlated_cols, axis=1)
-        
+    
+    # @staticmethod # TODO
     def one_hot_encode_cols(self):
         """Convert object columns to encoded data.
         """
@@ -258,9 +265,10 @@ class DataPreprocessor(DataTransform):
                              "last_credit_pull_date",
                              "collections_12_mths_ex_med"]
         super()._check_cols_exist(self.rows_to_drop)
-        
-    def __set_cols_to_drop(self):
-        """Set columns with large numbers of nulls
+    
+    # @staticmethod # TODO
+    def set_cols_to_drop(self):
+        """Set columns with large numbers of nulls. These columns still contain information, e.g. null in next_payment_data indicates no payment is due. Use this function to remove nulls if required by later analysis.
         """
         self.cols_to_drop = ["mths_since_last_delinq",
                              "mths_since_last_record",
@@ -310,13 +318,13 @@ class DataPreprocessor(DataTransform):
     def __set_correlated_cols(self):
         """Set columns to drop, based on investigation in notebook to find most correlated columns
         """
-        self.correlated_cols = ['funded_amount', 
-                                'funded_amount_inv',
-                                'out_prncp_inv',
-                                'total_payment_inv',
-                                'installment',
-                                'total_rec_prncp',
-                                '60 months']
+        self.correlated_cols = ['60 months']
+            # 'funded_amount', 
+        #                         'funded_amount_inv',
+        #                         'out_prncp_inv',
+        #                         'total_payment_inv',
+        #                         'installment',
+        #                         'total_rec_prncp',
         super()._check_cols_exist(self.correlated_cols)
         
         
@@ -327,6 +335,6 @@ class DataPreprocessor(DataTransform):
 if __name__ == "__main__":
     data = pd.read_csv("RDS_data.csv", index_col=0)
     data_transformer = DataPreprocessor(data)
-    data_transformer.data.to_csv("RDS_data_cleaned.csv")
+    data_transformer.data.to_csv("RDS_data_pre_transform.csv")
     # print(data_transformer.data.shape)
     # print(data_transformer.data.isnull().sum().sum())
