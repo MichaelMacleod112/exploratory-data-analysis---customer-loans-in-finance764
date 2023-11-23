@@ -36,6 +36,14 @@ class RDSDatabaseConnector():
             sys.exit(1)
         
     def _extract_RDS_data(self, table_name = "loan_payments")->pd.DataFrame:
+        """_summary_
+
+        Args:
+            table_name (str, optional): _description_. Defaults to "loan_payments".
+
+        Returns:
+            pd.DataFrame: _description_
+        """
         # Connect to database
         with self.engine.connect() as connection:
             # Execute SQL query to fetch data

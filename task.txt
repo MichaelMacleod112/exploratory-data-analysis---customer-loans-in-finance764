@@ -164,3 +164,101 @@ Minimal Use of self: When writing methods in a class, only use self for variable
 Avoid import *: Import only the specific methods or classes needed from a module to enhance code clarity and prevent naming conflicts
 Consistent Docstrings: Provide clear and consistent docstrings for all methods, explaining their purpose, parameters, and return values. This aids code understanding for other developers.
 Type Annotations: Consider adding type annotations to method signatures, variables, and return values to improve code maintainability and catch type-related errors during development
+
+# id: Unique id of the loan
+# id rename to loan_id
+# int to obj
+
+# member_id: Id of the member to took out the loan
+# int to object
+
+# loan_amount: Amount of loan the applicant received
+# loan amount int to float
+
+# funded_amount: The total amount committed to the loan at that point in time
+
+# funded_amount_inv: The total amount committed by investors for that loan at that point in time
+
+# term: The number of monthly payments for the loan
+# term obj to time period
+
+# int_rate: Interest rate on the loan
+
+# instalment: The monthly payment owned by the borrower
+# installment typo col name
+
+# grade: Loan company (LC) assigned loan grade
+# rename: loan grade 
+
+# sub_grade: LC assigned loan sub grade
+
+# employment_length: Employment length in years
+# obj to time period
+
+# home_ownership: The home ownership status provided by the borrower
+
+# annual_inc: The annual income of the borrower
+
+# verification_status: Indicates whether the borrowers income was verified by the LC or the income source was verified
+
+# issue_date: Issue date of the loan
+# obj to datetime
+
+# loan_status: Current status of the loan
+
+# payment_plan: Indicates if a payment plan is in place for the loan. Indication borrower is struggling to pay.
+# obj to bool
+
+# purpose: A category provided by the borrower for the loan request
+
+# dti: A ratio calculated using the borrower's total monthly debt payments on the total debt obligations, excluding mortgage and the requested LC loan, divided by the borrower’s self-reported monthly income
+
+# delinq_2yr: The number of 30+ days past-due payments in the borrower's credit file for the past 2 years
+
+# earliest_credit_line: The month the borrower's earliest reported credit line was opened
+# obj to datetime
+
+# inq_last_6mths: The number of inquiries in past 6 months (excluding auto and mortgage inquiries)
+
+# mths_since_last_record: The number of months' since the last public record
+# float to int or datetime period
+
+# open_accounts: The number of open credit lines in the borrower's credit file
+
+# total_accounts: The total number of credit lines currently in the borrower's credit file
+
+# out_prncp: Remaining outstanding principal for total amount funded
+# out_prncp_inv: Remaining outstanding principal for portion of total amount funded by investors
+# similar?
+
+# total_payment`: Payments received to date for total amount funded
+
+# total_rec_int: Interest received to date
+
+# total_rec_late_fee: Late fees received to date
+
+# recoveries: Post charge off gross recovery
+
+# collection_recovery_fee: Post charge off collection fee
+
+# last_payment_date: Date on which last month payment was received
+# obj to datetime
+
+# last_payment_amount: Last total payment amount received
+
+# next_payment_date: Next scheduled payment date
+# obj to datetime
+
+# last_credit_pull_date: The most recent month LC pulled credit for this loan
+# obj to datetime
+
+# collections_12_mths_ex_med: Number of collections in 12 months' excluding medical collections
+# float to int
+
+# mths_since_last_major_derog and mths_since_last_record: Months' since most recent 90-day or worse rating
+# float to int
+
+# policy_code: Publicly available policy_code=1 new products not publicly available policy_code=2
+# int to object
+
+# application_type: Indicates whether the loan is an individual application or a joint application with two co-borrowers

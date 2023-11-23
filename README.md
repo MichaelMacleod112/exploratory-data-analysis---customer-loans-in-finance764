@@ -2,13 +2,25 @@
 
 AI Core project in exploratory data analysis of financial data. More information to follow as functionality is added.
 
-## Contents
-- db_utils.py - contains class to access, download and save financial data table from SQL database stored on AWS
-- credentials.yaml - access credentials to RDS database - not stored in shared project. You will need your own credentials in order to use this project and download the correct data.
+## Installation instructions
+Main executable to be added. Developed on Python 3.8.8. Required libraries:
+- numpy
+- pandas
+- yaml
+- sys
+- sqlalchemy
+- scipy
+- sklearn
 
-Table of Contents, if the README file is long
-A description of the project: what it does, the aim of the project, and what you learned
-Installation instructions
-Usage instructions
-File structure of the project
-License information
+ADD LIBRARIES TO ENV YAML FILE
+
+## Usage instructions
+
+## Contents
+- credentials.yaml - access credentials to RDS database - not stored in shared project. You will need your own credentials in order to use this project and download the correct data.
+- db_utils.py - contains class to access, download and save financial data table from SQL database stored on AWS
+- preprocessing.py - handles data preprocessing and cleaning
+- data_stats.py - contains generalised functions to get statistics and visualise dataset
+
+### License information
+Michael Macleod 2023
