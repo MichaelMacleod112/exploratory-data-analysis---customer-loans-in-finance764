@@ -17,7 +17,7 @@ class DataTransform():
         print("Processing data...")
         self.data = raw_data
         self.missing_columns = []
-          
+        
         self._rename_columns()
         self._change_col_dtypes()
 
@@ -127,13 +127,14 @@ class DataPreprocessor(DataTransform):
         
         self.__handle_nulls()
         
-        # self.__transform_skewed_cols()
+        # Don't want to do this at this stage - analysis of specific numerical values expected
+        # self.transform_skewed_cols()
+        
         self.__drop_outliers()
         
-        print("Before vs after")
-        print(self.data.shape)
-        self.__drop_correlated_cols()
-        print(self.data.shape)
+        # Function to drop cols with correlation above 0.9, however some cols
+        # e.g. funded vs funded_inv are worth keeping separate for now even if very similar
+        # self.__drop_correlated_cols()
         
         print("Data cleaning complete")
         return
@@ -143,8 +144,8 @@ class DataPreprocessor(DataTransform):
         """Function to drop columns, rows, or impute based on nulls
         """
         # Handle columns with very large number of nulls
-        self.__set_cols_to_drop()
-        # self.data = self.data.drop(columns=self.cols_to_drop)
+        self.__set_cols_to_fix()
+        self.data[self.cols_to_fix] = self.data[self.cols_to_fix].fillna(-1)
         
         # Handle columns with low number of nulls
         self.__set_rows_to_drop()
@@ -178,12 +179,21 @@ class DataPreprocessor(DataTransform):
         preprocessor = ColumnTransformer(transformers=[('num', numeric_transformer, numeric_columns)])
         
         if y_target.dtype == object:
+            # use classification for object fields
             model = RandomForestClassifier()
             print(f"Using classifier to impute for column: {column_name}")
+            # target needs to be one hot encoded
             y_target = pd.get_dummies(y_target)
             new_columns = y_target.columns.tolist()
+            
+            # pd.get_dummies adds a prefix when used later on the whole array, so target columns need prefix added here
+            new_columns = [column_name + "_" + term for term in new_columns]
+
+            y_target.columns = new_columns
+            # print(f"ML model columns: {new_columns}")
             set_classifier_flag = 1
         elif y_target.dtype == int or y_target.dtype == float:
+            # use regressor for numerical fields
             model = RandomForestRegressor()
             print(f"Using regressor to impute for column: {column_name}")
         else:
@@ -201,12 +211,22 @@ class DataPreprocessor(DataTransform):
         # Replace missing values with imputed values in the original dataset
         if set_classifier_flag:
             self.data = pd.get_dummies(self.data, columns=[column_name])
+            # print(f"Data column names: {self.data.columns}")
             self.data.loc[self.data.index.isin(null_data.index), new_columns] = imputed_values
+            
+            # recombine encoded values to original type
+            self.data[column_name] = self.data[new_columns].idxmax(axis=1).str.split('_').str[1]
+            self.data = self.data.drop(new_columns, axis=1)
+            
+            # TODO move this? abstract
+            new_column_int = column_name + "_int"
+            self.data[new_column_int] = self.data[column_name].str.split().str[0].astype(int)
+            # print(f"Recombined data column names: {self.data.columns}")
         else:
             self.data.loc[self.data.index.isin(null_data.index), column_name] = imputed_values
         print(f"Imputation for {column_name} complete!")
 
-    def __transform_skewed_cols(self):
+    def transform_skewed_cols(self):
         """Apply Yeo-Johnson transform to set columns
         """
         self.__set_skewed_cols()
@@ -263,14 +283,14 @@ class DataPreprocessor(DataTransform):
                              "collections_12_mths_ex_med"]
         super()._check_cols_exist(self.rows_to_drop)
         
-    def __set_cols_to_drop(self):
+    def __set_cols_to_fix(self):
         """Set columns with large numbers of nulls
         """
-        self.cols_to_drop = ["mths_since_last_delinq",
+        self.cols_to_fix = ["mths_since_last_delinq",
                              "mths_since_last_record",
                              "next_payment_date",
                              "mths_since_last_major_derog"]
-        super()._check_cols_exist(self.cols_to_drop)
+        super()._check_cols_exist(self.cols_to_fix)
         
     def __set_cols_to_impute(self):
         """Set columns for data imputation
@@ -308,6 +328,15 @@ class DataPreprocessor(DataTransform):
                             'total_rec_prncp',
                             'total_rec_int',
                             'last_payment_amount',
+                            'collection_recovery_fee',
+                            'delinq_2yrs',
+                            'employment_length',
+                            'inq_last_6mths',
+                            'mths_since_last_delinq',
+                            'mths_since_last_major_derog',
+                            'mths_since_last_record',
+                            'recoveries',
+                            'total_rec_late_fee'
                             ]
         super()._check_cols_exist(self.skewed_cols)
         
@@ -332,7 +361,7 @@ if __name__ == "__main__":
     data = pd.read_csv("RDS_data.csv", index_col=0)
     data_transformer = DataPreprocessor(data)
     # data_transformer = DataTransform(data)
-    print(data_transformer.data.dtypes)
+    # print(data_transformer.data.dtypes)
     # print(data_transformer.data['last_payment_date'].head())
     data_transformer.data.to_csv("datetime_test_not.csv")
     # print(data_transformer.data.shape)
