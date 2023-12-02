@@ -30,7 +30,7 @@ Each python (.py) file can be run separately, or run through data_queries.ipynb 
 - data_examining.ipynb - experimental notebook containing iterative cells working towards changing column data types. Finished implementation found in preprocessing.py - this file is left for legacy purposes for now.
 - data_imputation.ipynb - experimental notebook containing iterative cells working towards developing a data imputation methodology. Finished implementation found in preprocessing.py - this file is left for legacy purposes for now.
 - random_forest_class.py - creates a Random Forest Classifier class to make predictions on loan_status. Uses past data as a training set and is able to make predictions on current loans. Accessable model parameters include predictions on open loans and more importantly, feature importances. This is to fulfil the milestone requirement of determining which features are better or worse predictors for whether a loan will be paid back or charged off.
-- DateTimeFeatureExtractor - contains a custom extractor to extract month and year features from datetime columns and convert to columns usable by the classifier
+- date_time_feature_extractor.py - contains a custom extractor to extract month and year features from datetime columns and convert to columns usable by the classifier
 
 
 ### License information
