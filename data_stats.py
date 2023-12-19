@@ -4,7 +4,7 @@ import seaborn as sns
 import scipy.stats as stats
 from matplotlib import pyplot as plt
 # from statsmodels.graphics.gofplots import qqplot
-
+# TODO CODE REVIEW - Could remove the unecessary import and from which are commented out 
 
 class DataFrameInfo():
     """Contains methods to extract some useful stats from a dataframe, which should be passed in at initialisation
@@ -18,9 +18,9 @@ class DataFrameInfo():
         self.get_shape
         self.get_null_counts()
     
-    def describe_columns(self):
+    def describe_columns(self): # NOTE CODE REVIEW - Could technically have these as f strings in single print statements, but this also works fine
         print("Datatypes:")
-        print(self.data.dtypes)
+        print(self.data.dtypes) 
         # return self.data.dtypes
 
     def get_shape(self):
@@ -50,7 +50,7 @@ class Plotter():
         
         plt.title(f"{col} data distribution", color='white')
 
-    def plot_skew(self, col):
+    def plot_skew(self, col): # NOTE CODE REVIEW - Nicely done explaining the args
         """Displays data distribution histogram alongside a Q-Q plot to show skew
 
         Args:
@@ -75,4 +75,4 @@ class Plotter():
         """Visualise data correlation on heatmap
         """
         plt.figure(figsize=(7,4),dpi=150)
-        sns.heatmap(self.df.corr(), cmap = 'coolwarm')
+        sns.heatmap(self.df.corr(), cmap = 'coolwarm') # NOTE CODE REVIEW - Great in-line comments!

@@ -2,8 +2,8 @@
 
 AI Core project in exploratory data analysis of financial data. Downloads online data table (provided user has credentials) and performs data cleaning and preprocessing in several stages. Contains custom feature extraction class and Random Forest Classifier model to make predictions on loans being paid back or charged off, and returns information on the strongest predictors of this being the case.
 
-## Installation instructions
-Developed on Python 3.8.8. Required libraries:
+## Installation instructions 
+Developed on Python 3.8.8. Required libraries: 
 - numpy
 - pandas
 - yaml
@@ -35,3 +35,8 @@ Each python (.py) file can be run separately, or run through data_queries.ipynb 
 
 ### License information
 Michael Macleod 2023
+
+**<--CODE REVIEW NOTES -->**
+**<--Good Readme, could add your findings from milestone 4 into here-->**
+**<--Could add the data dictionary in here or as a seperate file into the repo but up to you, not a necessity-->**
+**<--Small point, you have "access credentials to RDS database - not stored in shared project" but you have the credentials in your task.txt file, unless you are planning on removing that file -->**

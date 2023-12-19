@@ -1,5 +1,5 @@
 import numpy as np
-import pandas as pd
+import pandas as pd # NOTE CODE REVIEW - Nice space between imports and froms, however none only random_forest_class has this layout
 
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from sklearn.impute import SimpleImputer
@@ -7,8 +7,8 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from scipy.stats import yeojohnson
 
-class DataTransform():
-    """Class to clean up RDS data, including:
+class DataTransform(): # NOTE CODE REVIEW - Not inherintly incorrect but I would start the docstrings on the next line rather than on the triple quotation mark 
+    """Class to clean up RDS data, including: 
     - fixing typos in col names
     - fixing data types
     Takes raw data as downloaded as input
@@ -22,7 +22,7 @@ class DataTransform():
         self._change_col_dtypes()
 
 
-    def _check_cols_exist(self, column_names)->None:
+    def _check_cols_exist(self, column_names)->None: # TODO CODE REVIEW - Add arguments and what the method returns (if anything)
         """Checks if columns exist within raw data, notes any missing columns for reference
 
         """
@@ -32,7 +32,7 @@ class DataTransform():
             self.missing_columns.extend(missing_cols)
 
     
-    def _rename_columns(self):
+    def _rename_columns(self): # TODO CODE REVIEW - Add arguments and what the method returns (if anything). Nice use of the underscore to show this is a semi-private method
         """Renames several columns for ease of understanding or correct typos
         """
         column_rename_dict = {"id":"loan_id",
@@ -51,7 +51,7 @@ class DataTransform():
         self.__set__obj_to_bool_cols()
         self.__set__obj_to_datetime_cols()
         
-        if self.missing_columns:
+        if self.missing_columns: # NOTE CODE REVIEW - Could have this step in your _check_cols_exist, as it would be the relevant concern and the issue would be caught before converting the columns
             print("WARNING: expected columns are missing in the loaded data! Missing columns:")
             print(self.missing_columns)
             print("Data table may contain incorrect data types!")
@@ -81,10 +81,10 @@ class DataTransform():
         self.data['employment_length'] = self.data['employment_length'].str.extract('(\d+)').astype(float).fillna(0).astype(int)
 
         return
-    
-    # functions to handle correcting data types of various columns - purpose should be self explanatory
-    def __set__int_to_obj_cols(self):
-        self.int_to_obj_cols = ["loan_id","member_id",
+    # NOTE CODE REVIEW - Slight correction, they're technically methods as they are in a class in the in-line comment below:)
+    # methods to handle correcting data types of various columns - purpose should be self explanatory
+    def __set__int_to_obj_cols(self): # NOTE CODE REVIEW - Nice use of double underscores for superprivate methods
+        self.int_to_obj_cols = ["loan_id","member_id", # TODO CODE REVIEW - All youre other mathods have each column on a separate line, slight inconsistency here
                                 "policy_code"]
         self._check_cols_exist(self.int_to_obj_cols)    
     
@@ -110,7 +110,7 @@ class DataTransform():
         self._check_cols_exist(self.obj_to_datetime_cols)
 
 
-class DataPreprocessor(DataTransform):
+class DataPreprocessor(DataTransform): # NOTE CODE REVIEW - Drops >50% cols, imputes 1-15%, and drops other rows, so does it also drop rows for 15-50% null cols?
     """Imputation class. Handles several aspects of data cleaning:
     - Drops columns containing too many null values (>50%)
     - Imputes values for columns containing moderate number of nulls (1 - 15%)
