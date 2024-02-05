@@ -34,4 +34,4 @@ Each python (.py) file can be run separately, or run through data_queries.ipynb 
 
 
 ### License information
-Michael Macleod 2023
+[MIT](https://choosealicense.com/licenses/mit/)
