@@ -77,4 +77,4 @@ Feel free to reach out if you encounter any issues or have questions.
 
 
 ### License information
-Michael Macleod 2023
+[MIT](https://choosealicense.com/licenses/mit/)
