@@ -1,24 +1,67 @@
 # Exploratory Data Analysis Project:  Customer Loans in Finance
 
+## Contents
+- [Introduction](#introduction)
+- [Project Brief](#project-brief-business-intelligence-enhancement-with-power-bi)
+- [Business Intelligence Report](#business-intelligence-report-dummy-sales-data)
+- [Report Structure](#report-structure)
+- [File Contents](#file-contents)
+- [File Structure Tree](#file-structure-tree)
+- [Usage](#usage)
+- [Report Contents](#report-contents)
+- [License](#license)
+
+## Introduction
 AI Core project in exploratory data analysis of financial data. Downloads online data table (provided user has credentials) and performs data cleaning and preprocessing in several stages. Contains custom feature extraction class and Random Forest Classifier model to make predictions on loans being paid back or charged off, and returns information on the strongest predictors of this being the case.
 
-## Installation instructions 
-Developed on Python 3.8.8. Required libraries: 
-- numpy
-- pandas
-- yaml
-- sys
-- sqlalchemy
-- scipy
-- sklearn
 
-These libraries will in future be exported to an env.yaml file to allow easy compatibility with required libraries.
+## Usage
 
+#### 1. Clone the Repository
 
-## Usage instructions
-Each python (.py) file can be run separately, or run through data_queries.ipynb to see the complete data cleaning, preprocessing and analysis pipeline.
+Navigate to the [GitHub repository](https://github.com/MichaelMacleod112/exploratory-data-analysis---customer-loans-in-finance764) and click on the "Code" button. Copy the repository URL and use the git clone command to clone the repository to your local machine.
 
-## Contents
+#### 2. Navigate to the Project Directory
+
+Use your terminal or command prompt to navigate to the directory where you cloned the repository.
+
+#### 3. Create Conda Environment
+
+- **Install Conda:**
+  Ensure that you have Conda installed on your machine. If not, download and install Miniconda or Anaconda from [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html).
+
+- **Create Environment:**
+  Open your terminal and run the following command to create a Conda environment using the provided YAML file:
+```bash
+  - conda env create -f env.yml
+```
+
+#### 4. Activate Conda Environment
+
+Once the environment is created, activate it using the following command:
+
+```bash
+- conda activate EDA_project_env
+```
+
+#### 5. Verify Environment
+
+Check that your command prompt or terminal displays the activated environment name.
+
+#### 6. Run the Project
+
+Now, you can run the project or execute any scripts within the activated Conda environment.
+
+#### 7. Deactivate Environment
+
+After finishing your work, deactivate the Conda environment using the following command:
+
+```bash
+- conda deactivate
+```
+
+Feel free to reach out if you encounter any issues or have questions.
+
 ### Milestone files
 - db_utils.py - contains class to access, download and save financial data table from SQL database stored on AWS
 - preprocessing.py - handles data preprocessing and cleaning via classes.
@@ -35,8 +78,3 @@ Each python (.py) file can be run separately, or run through data_queries.ipynb 
 
 ### License information
 Michael Macleod 2023
-
-**<--CODE REVIEW NOTES -->**
-**<--Good Readme, could add your findings from milestone 4 into here-->**
-**<--Could add the data dictionary in here or as a seperate file into the repo but up to you, not a necessity-->**
-**<--Small point, you have "access credentials to RDS database - not stored in shared project" but you have the credentials in your task.txt file, unless you are planning on removing that file -->**

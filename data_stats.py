@@ -1,13 +1,12 @@
 import pandas as pd
-# import numpy as np
 import seaborn as sns
 import scipy.stats as stats
+
 from matplotlib import pyplot as plt
-# from statsmodels.graphics.gofplots import qqplot
-# TODO CODE REVIEW - Could remove the unecessary import and from which are commented out 
 
 class DataFrameInfo():
-    """Contains methods to extract some useful stats from a dataframe, which should be passed in at initialisation
+    """
+    Contains methods to extract some useful stats from a dataframe, which should be passed in at initialisation
     """
     def __init__(self, data: pd.DataFrame()):
         self.data = data
@@ -18,7 +17,7 @@ class DataFrameInfo():
         self.get_shape
         self.get_null_counts()
     
-    def describe_columns(self): # NOTE CODE REVIEW - Could technically have these as f strings in single print statements, but this also works fine
+    def describe_columns(self):
         print("Datatypes:")
         print(self.data.dtypes) 
         # return self.data.dtypes
@@ -37,7 +36,8 @@ class DataFrameInfo():
         
         
 class Plotter():
-    """Class to store plotting and data visualisation functions
+    """
+    Class to store plotting and data visualisation functions
     """
     def __init__(self, df):
         self.df = df
@@ -50,8 +50,9 @@ class Plotter():
         
         plt.title(f"{col} data distribution", color='white')
 
-    def plot_skew(self, col): # NOTE CODE REVIEW - Nicely done explaining the args
-        """Displays data distribution histogram alongside a Q-Q plot to show skew
+    def plot_skew(self, col):
+        """
+        Displays data distribution histogram alongside a Q-Q plot to show skew
 
         Args:
             col (): df column to visualise
@@ -72,7 +73,8 @@ class Plotter():
         plt.show()
     
     def plot_correlation(self):
-        """Visualise data correlation on heatmap
+        """
+        Visualise data correlation on heatmap
         """
         plt.figure(figsize=(7,4),dpi=150)
-        sns.heatmap(self.df.corr(), cmap = 'coolwarm') # NOTE CODE REVIEW - Great in-line comments!
+        sns.heatmap(self.df.corr(), cmap = 'coolwarm')

@@ -1,5 +1,5 @@
 import numpy as np
-import pandas as pd # NOTE CODE REVIEW - Nice space between imports and froms, however none only random_forest_class has this layout
+import pandas as pd
 
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from sklearn.impute import SimpleImputer
@@ -7,8 +7,9 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from scipy.stats import yeojohnson
 
-class DataTransform(): # NOTE CODE REVIEW - Not inherintly incorrect but I would start the docstrings on the next line rather than on the triple quotation mark 
-    """Class to clean up RDS data, including: 
+class DataTransform():
+    """
+    Class to clean up RDS data, including: 
     - fixing typos in col names
     - fixing data types
     Takes raw data as downloaded as input
@@ -22,9 +23,9 @@ class DataTransform(): # NOTE CODE REVIEW - Not inherintly incorrect but I would
         self._change_col_dtypes()
 
 
-    def _check_cols_exist(self, column_names)->None: # TODO CODE REVIEW - Add arguments and what the method returns (if anything)
-        """Checks if columns exist within raw data, notes any missing columns for reference
-
+    def _check_cols_exist(self, column_names)->None:
+        """
+        Checks if columns exist within raw data, notes any missing columns for reference
         """
         col_intersect = np.intersect1d(self.data.columns, column_names)
         missing_cols = list(set(column_names)-set(col_intersect))
@@ -32,8 +33,9 @@ class DataTransform(): # NOTE CODE REVIEW - Not inherintly incorrect but I would
             self.missing_columns.extend(missing_cols)
 
     
-    def _rename_columns(self): # TODO CODE REVIEW - Add arguments and what the method returns (if anything). Nice use of the underscore to show this is a semi-private method
-        """Renames several columns for ease of understanding or correct typos
+    def _rename_columns(self):
+        """
+        Renames several columns for ease of understanding or correct typos
         """
         column_rename_dict = {"id":"loan_id",
                               "grade":"loan_grade",
@@ -43,7 +45,8 @@ class DataTransform(): # NOTE CODE REVIEW - Not inherintly incorrect but I would
         return
     
     def _change_col_dtypes(self):
-        """Corrects a number of data types of various columns based on usage and/or memory
+        """
+        Corrects a number of data types of various columns based on usage and/or memory
         """
         # set columns to change types and check they exist in the dataframe, then change column dtypes
         self.__set__int_to_obj_cols()
@@ -110,8 +113,9 @@ class DataTransform(): # NOTE CODE REVIEW - Not inherintly incorrect but I would
         self._check_cols_exist(self.obj_to_datetime_cols)
 
 
-class DataPreprocessor(DataTransform): # NOTE CODE REVIEW - Drops >50% cols, imputes 1-15%, and drops other rows, so does it also drop rows for 15-50% null cols?
-    """Imputation class. Handles several aspects of data cleaning:
+class DataPreprocessor(DataTransform):
+    """
+    Imputation class. Handles several aspects of data cleaning:
     - Drops columns containing too many null values (>50%)
     - Imputes values for columns containing moderate number of nulls (1 - 15%)
     - Drops other rows containing nulls
@@ -141,7 +145,8 @@ class DataPreprocessor(DataTransform): # NOTE CODE REVIEW - Drops >50% cols, imp
         
     
     def __handle_nulls(self):
-        """Function to drop columns, rows, or impute based on nulls
+        """
+        Function to drop columns, rows, or impute based on nulls
         """
         # Handle columns with very large number of nulls
         self.__set_cols_to_fix()
@@ -227,7 +232,8 @@ class DataPreprocessor(DataTransform): # NOTE CODE REVIEW - Drops >50% cols, imp
         print(f"Imputation for {column_name} complete!")
 
     def transform_skewed_cols(self):
-        """Apply Yeo-Johnson transform to set columns
+        """
+        Apply Yeo-Johnson transform to set columns
         """
         self.__set_skewed_cols()
         print("Transforming skewed columns...")
@@ -241,7 +247,8 @@ class DataPreprocessor(DataTransform): # NOTE CODE REVIEW - Drops >50% cols, imp
                     pass
         
     def __drop_outliers(self, threshold=5):
-        """Drop rows if a value contains a value over 5 standard deviations from the mean
+        """
+        Drop rows if a value contains a value over 5 standard deviations from the mean
         """
         for col in self.data:
             if self.data.dtypes[col] == int or self.data.dtypes[col] == float:
@@ -251,14 +258,16 @@ class DataPreprocessor(DataTransform): # NOTE CODE REVIEW - Drops >50% cols, imp
                 self.data = self.data[~outlier_indices]
     
     def __drop_correlated_cols(self):
-        """Drops overly correlated columns: threshold = 0.9 or greater correlation
+        """
+        Drops overly correlated columns: threshold = 0.9 or greater correlation
         """
         print("Dropping overly correlated columns")
         self.__set_correlated_cols()
         self.data = self.data.drop(self.correlated_cols, axis=1)
         
     def one_hot_encode_cols(self):
-        """Convert object columns to encoded data.
+        """
+        Convert object columns to encoded data.
         """
         self.OHE_cols = ['loan_grade',
                          'loan_sub_grade',
@@ -275,7 +284,8 @@ class DataPreprocessor(DataTransform): # NOTE CODE REVIEW - Drops >50% cols, imp
         self.data = pd.get_dummies(self.data, columns=self.OHE_cols)
     
     def __set_rows_to_drop(self):
-        """Set columns with low number of nulls to drop those rows
+        """
+        Set columns with low number of nulls to drop those rows
         """
         self.rows_to_drop = ["collection_recovery_fee",
                              "last_payment_date",
@@ -284,7 +294,8 @@ class DataPreprocessor(DataTransform): # NOTE CODE REVIEW - Drops >50% cols, imp
         super()._check_cols_exist(self.rows_to_drop)
         
     def __set_cols_to_fix(self):
-        """Set columns with large numbers of nulls
+        """
+        Set columns with large numbers of nulls
         """
         self.cols_to_fix = ["mths_since_last_delinq",
                              "mths_since_last_record",
@@ -293,7 +304,8 @@ class DataPreprocessor(DataTransform): # NOTE CODE REVIEW - Drops >50% cols, imp
         super()._check_cols_exist(self.cols_to_fix)
         
     def __set_cols_to_impute(self):
-        """Set columns for data imputation
+        """
+        Set columns for data imputation
         """
         self.cols_to_impute = ["funded_amount",
                                "term",
@@ -312,7 +324,8 @@ class DataPreprocessor(DataTransform): # NOTE CODE REVIEW - Drops >50% cols, imp
     #     super()._check_cols_exist(self.cols_to_impute)
             
     def __set_skewed_cols(self):
-        """Set columns for Yeo-Johnson transform
+        """
+        Set columns for Yeo-Johnson transform
         """
         self.skewed_cols = ['loan_amount',
                             'funded_amount',
@@ -341,7 +354,8 @@ class DataPreprocessor(DataTransform): # NOTE CODE REVIEW - Drops >50% cols, imp
         super()._check_cols_exist(self.skewed_cols)
         
     def __set_correlated_cols(self):
-        """Set columns to drop, based on investigation in notebook to find most correlated columns
+        """
+        Set columns to drop, based on investigation in notebook to find most correlated columns
         """
         self.correlated_cols = ['60 months']
             # 'funded_amount', 

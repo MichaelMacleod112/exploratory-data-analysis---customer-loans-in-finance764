@@ -13,8 +13,9 @@ from preprocessing import DataPreprocessor, DataTransform
 from date_time_feature_extractor import DateTimeFeatureExtractor
 
 
-class RDSRandomForestClassifier(DataPreprocessor): # TODO CODE REVIEW - Check typos in docstrings, I would remove any todo's in here and probobably add them into a "how you could improve this project" section in your ReadMe
-    """Class to build random forest classifier model for predicting loan status
+class RDSRandomForestClassifier(DataPreprocessor):
+    """
+    Class to build random forest classifier model for predicting loan status
     Initially creates data table in the same way as previously, before following through with some daditional preprocessing
     - Yeo-Johnson transformation applied on numeric columns
     - Object columns one hot encoded
@@ -35,14 +36,16 @@ class RDSRandomForestClassifier(DataPreprocessor): # TODO CODE REVIEW - Check ty
         # self.print_model_info()
         
     def _preprocessing_steps(self):
-        """Skewed columns are not transformed by default in parent so done here
+        """
+        Skewed columns are not transformed by default in parent so done here
         """
         self.transform_skewed_cols()
         # self.__set_col_types()
         return
         
     def predict_for_current_data(self):
-        """Uses trained model to make predictions on loan_status for current data
+        """
+        Uses trained model to make predictions on loan_status for current data
         """
         # Separate current data
         self.current_data = self.data[self.data['loan_status'].isin(['Current',
@@ -63,10 +66,10 @@ class RDSRandomForestClassifier(DataPreprocessor): # TODO CODE REVIEW - Check ty
         except AttributeError as e:
             print(f"{e}: please ensure the model is trained before making predictions")
         
-# NOTE CODE REVIEW - These three lines of space are a bit inconsistent with the rest of your code, I like the two spaces between the class and imports + the last block of code though
 
     def train_model(self, print_model_stats_flag = True):
-        """Builds and trains a Random Forest Classifier based on loans which are fully paid or charged off
+        """
+        Builds and trains a Random Forest Classifier based on loans which are fully paid or charged off
         Prints model accuracy and classification report
         """
         
@@ -100,7 +103,8 @@ class RDSRandomForestClassifier(DataPreprocessor): # TODO CODE REVIEW - Check ty
             print(classification_report(y_test_encoded, self.predictions))
             
     def print_model_info(self, plot_flag = False):
-        """Prints information about the trained model, plots 10 most important features
+        """
+        Prints information about the trained model, plots 10 most important features
         # TODO more metrics and info to print
         """
         if not self.pipeline:
@@ -136,7 +140,8 @@ class RDSRandomForestClassifier(DataPreprocessor): # TODO CODE REVIEW - Check ty
 # TODO this function can probably live happily in a parent class
     # Get columns and split by type - required for passing into model
     def __set_col_types(self):
-        """Create arrays containing columns by their type, excludes data not used for estimation e.g. 
+        """
+        Create arrays containing columns by their type, excludes data not used for estimation e.g. 
         """
         self.numeric_cols = []
         self.object_cols = []
@@ -181,7 +186,8 @@ class RDSRandomForestClassifier(DataPreprocessor): # TODO CODE REVIEW - Check ty
         self.pipeline = Pipeline(steps=[('preprocessor', self.preprocessor),('classifier', RandomForestClassifier())])
         
     def set_excluded_cols(self):
-        """Set columns to exclude as estimators. See below for reasoning.
+        """
+        Set columns to exclude as estimators. See below for reasoning.
         """
         self.excluded_cols = ['loan_status', 'member_id', 'loan_id', 
                               'collection_recovery_fee', 'recoveries',
