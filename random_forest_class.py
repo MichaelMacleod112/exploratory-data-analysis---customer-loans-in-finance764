@@ -13,7 +13,7 @@ from preprocessing import DataPreprocessor, DataTransform
 from date_time_feature_extractor import DateTimeFeatureExtractor
 
 
-class RDSRandomForestClassifier(DataPreprocessor):
+class RDSRandomForestClassifier(DataPreprocessor): # TODO CODE REVIEW - Check typos in docstrings, I would remove any todo's in here and probobably add them into a "how you could improve this project" section in your ReadMe
     """Class to build random forest classifier model for predicting loan status
     Initially creates data table in the same way as previously, before following through with some daditional preprocessing
     - Yeo-Johnson transformation applied on numeric columns
@@ -28,7 +28,7 @@ class RDSRandomForestClassifier(DataPreprocessor):
 
         print("Initialising Random Forest Classifier")
         self._preprocessing_steps()
-        self.set_excluded_cols()
+        self.set_excluded_cols() # NOTE CODE REVIEW - What could be added for the project would best be put in the ReadMe rather than the code
         # TODO allow for external control of model training?
         self.train_model()
         self.predict_for_current_data()
@@ -63,7 +63,7 @@ class RDSRandomForestClassifier(DataPreprocessor):
         except AttributeError as e:
             print(f"{e}: please ensure the model is trained before making predictions")
         
-
+# NOTE CODE REVIEW - These three lines of space are a bit inconsistent with the rest of your code, I like the two spaces between the class and imports + the last block of code though
 
     def train_model(self, print_model_stats_flag = True):
         """Builds and trains a Random Forest Classifier based on loans which are fully paid or charged off
@@ -199,4 +199,4 @@ class RDSRandomForestClassifier(DataPreprocessor):
 if __name__ == "__main__":
     raw_data = pd.read_csv('RDS_data.csv',index_col=0)
     forest_test = RDSRandomForestClassifier(raw_data)
-    forest_test.print_model_info(plot_flag=True)
+    forest_test.print_model_info(plot_flag=True) # NOTE CODE REVIEW - Great docstrings and inline comments! NOthing to really improve here :)
