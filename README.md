@@ -1,19 +1,20 @@
 # Exploratory Data Analysis Project:  Customer Loans in Finance
 
 ## Contents
-- [Introduction](#introduction)
-- [Project Brief](#project-brief-business-intelligence-enhancement-with-power-bi)
-- [Business Intelligence Report](#business-intelligence-report-dummy-sales-data)
-- [Report Structure](#report-structure)
-- [File Contents](#file-contents)
-- [File Structure Tree](#file-structure-tree)
-- [Usage](#usage)
-- [Report Contents](#report-contents)
-- [License](#license)
+- [Introduction](##introduction)
+- [Findings](##findings)
+- [Business Intelligence Report](##business-intelligence-report-dummy-sales-data)
+- [Report Structure](##report-structure)
+- [File Contents](##file-contents)
+- [File Structure Tree](##file-structure-tree)
+- [Usage](##usage)
+- [Report Contents](##report-contents)
+- [License](##license)
 
 ## Introduction
 AI Core project in exploratory data analysis of financial data. Downloads online data table (provided user has credentials) and performs data cleaning and preprocessing in several stages. Contains custom feature extraction class and Random Forest Classifier model to make predictions on loans being paid back or charged off, and returns information on the strongest predictors of this being the case.
 
+## Findings
 
 ## Usage
 
@@ -33,7 +34,7 @@ Use your terminal or command prompt to navigate to the directory where you clone
 - **Create Environment:**
   Open your terminal and run the following command to create a Conda environment using the provided YAML file:
 ```bash
-  - conda env create -f env.yml
+  - conda env create -f environment.yaml
 ```
 
 #### 4. Activate Conda Environment

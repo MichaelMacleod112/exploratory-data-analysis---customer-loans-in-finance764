@@ -1,0 +1,12 @@
+name: EDA_project_env
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - numpy
+  - pandas
+  - pyyaml
+  - sqlalchemy
+  - scipy
+  - scikit-learn
+  - psycopg2
