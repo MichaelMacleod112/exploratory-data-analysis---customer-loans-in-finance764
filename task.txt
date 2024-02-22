@@ -24,18 +24,6 @@ Remember to add this file to your
 you don't want your credentials being pushed 
 to GitHub for security reasons.
 
-
-Add the following credentials to your credentials.yaml 
-file which will allow you to connect to the remote database:
-
-
-RDS_HOST: eda-projects.cq2e8zno855e.eu-west-1.rds.amazonaws.com
-RDS_PASSWORD: EDAloananalyst
-RDS_USER: loansanalyst
-RDS_DATABASE: payments
-RDS_PORT: 5432
-
-
 Step 2: If you haven't already installed 
 Python PyYAML package you should do so
  before the next step. This can be installed 

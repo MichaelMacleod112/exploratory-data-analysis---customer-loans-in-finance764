@@ -6,7 +6,8 @@ dependencies:
   - numpy
   - pandas
   - pyyaml
-  - sqlalchemy
+  - sqlalchemy=1.4.39
   - scipy
   - scikit-learn
   - psycopg2
+  - sys
